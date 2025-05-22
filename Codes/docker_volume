@@ -1,0 +1,8 @@
+
+  108  docker volume create myVolumne
+  109  docker volume ls
+  112  docker inspect myVolumne
+  114  docker volume rm myVolumne
+  115  docker volume prune
+  116  clear
+  117  history
