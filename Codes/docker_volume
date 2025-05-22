@@ -6,3 +6,13 @@
   115  docker volume prune
   116  clear
   117  history
+
+
+
+120  docker pull  nginx
+  121  docker images
+  122  docker volume create vkvolume
+  123  docker run -d --name my-nginx -v vkvolume:/usr/share/nginx/html nginx
+  124  sudo ls /var/lib/docker/volumes/vkvolume/_data/
+  125  docker ps
+  126  history
