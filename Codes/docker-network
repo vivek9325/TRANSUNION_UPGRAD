@@ -21,14 +21,11 @@
    35  docker images
    36  history
 
-
- 33  docker images
-   34  clear
-   35  docker images
-   36  history
-   37  clear
    38  docker images
    39  docker rmi <image name or image id>
+
+
+
    40  docker images
    41  docker pull mysql:latest
    42  cd two-tier-flask-app/
