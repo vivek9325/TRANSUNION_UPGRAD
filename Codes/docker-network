@@ -20,3 +20,26 @@
    34  clear
    35  docker images
    36  history
+
+
+ 33  docker images
+   34  clear
+   35  docker images
+   36  history
+   37  clear
+   38  docker images
+   39  docker rmi <image name or image id>
+   40  docker images
+   41  docker pull mysql:latest
+   42  cd two-tier-flask-app/
+   43  clear
+   44  docker run -d -p 5000:5000 -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-backend:latest
+   45  docker images
+   46  docker ps
+   47  docker network ls
+   48  docker run -d --name mysql --network mynetwork -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql
+   51  docker run -d -p 5000:5000 --network mynetwork -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-backend:latest
+   52  docker images
+   53  docker ps
+   55  docker logs <container_id>
+   56  history
