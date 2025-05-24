@@ -5,3 +5,17 @@
   125  sudo mv terraform /usr/local/bin/
   126  terraform version
   127  history
+
+
+
+Uninstall Terraform
+
+  134  sudo apt update
+  sudo apt remove terraform -y
+  131  sudo apt purge terraform -y 
+  132  sudo rm /etc/apt/sources.list.d/hashicorp.list
+  133  sudo rm /usr/share/keyrings/hashicorp-archive-keyring.gpg
+  134  sudo apt update
+  136  sudo rm /usr/local/bin/terraform
+  137  terraform version
+
