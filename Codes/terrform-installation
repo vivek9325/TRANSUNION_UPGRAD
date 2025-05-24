@@ -1,7 +1,7 @@
 121  sudo apt update
   122  sudo apt install -y wget unzip
   123  wget https://releases.hashicorp.com/terraform/1.12.1/terraform_1.12.1_linux_amd64.zip
-  124  unzip terraform_1.8.2_linux_amd64.zip
+  124  unzip terraform_1.12.1_linux_amd64.zip
   125  sudo mv terraform /usr/local/bin/
   126  terraform version
   127  history
