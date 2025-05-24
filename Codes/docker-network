@@ -1,0 +1,22 @@
+   13  docker network ls
+   14  docker network create mynetwork -d bridge
+   15  docker network ls
+   16  hisotyr
+   17  history
+   18  git clone https://github.com/LondheShubham153/two-tier-flask-app.git
+   19  ll
+   20  cd two-tier-flask-app/`
+   21  cd two-tier-flask-app/
+   22  docker ps
+   23  clear
+   24  ll
+   25  docker build -t two-tier-backend .
+   26  clear
+   29  docker images
+   30  cd ..
+   31  docker pull mysql:latest
+   32  ll
+   33  docker images
+   34  clear
+   35  docker images
+   36  history
