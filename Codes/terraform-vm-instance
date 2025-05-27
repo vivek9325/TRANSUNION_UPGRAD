@@ -1,0 +1,64 @@
+main.tf
+
+terraform {
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+      version = "6.36.1"
+    }
+  }
+}
+
+
+
+
+provider.tf
+
+
+provider "google" {
+  # Configuration options
+  credentials = file("../upgradlabs-1746877450825-5808a4588870.json")
+  project = "upgradlabs-1746877450825"
+  region = "us-central1"
+  zone = "us-central1-a"
+
+}
+
+resource "google_compute_instance" "vm_instance" {
+
+    name = "basic-vm-instance"
+    machine_type = "e2-micro"
+    zone = "us-central1-a"
+
+    boot_disk {
+      initialize_params {
+        
+        image = "debian-cloud/debian-11"
+      }
+    }
+
+    network_interface {
+      
+      network = "default"
+      access_config {
+        
+      }
+
+    }
+
+    tags = ["dev"]
+  
+}
+
+
+
+
+
+command to run the terraform
+
+
+ 189  terraform init
+  190  terraform validate
+  191  terraform plan
+  192  terraform apply
+  193  history
