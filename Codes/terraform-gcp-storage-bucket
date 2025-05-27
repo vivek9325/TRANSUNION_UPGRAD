@@ -1,0 +1,31 @@
+main.tf 
+
+terraform {
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+      version = "6.36.1"
+    }
+  }
+}
+
+
+
+resource "google_storage_bucket" "GCS1" {
+
+    name = "bucket-from-tf-up"
+    location = "US"
+  
+}
+
+providers.tf
+
+
+provider "google" {
+  # Configuration options
+  credentials = file()
+  project = upgradlabs-1746877450825
+  region = "us-central1"
+  zone = "us-central1-a"
+
+}
