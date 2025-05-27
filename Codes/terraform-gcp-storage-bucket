@@ -28,3 +28,13 @@ provider "google" {
   zone = "us-central1-a"
 
 }
+
+
+Steps to execute the terraform code ------
+
+
+  176  terraform init
+  177  terraform validate
+  178  terraform plan
+  179  terraform apply
+  
