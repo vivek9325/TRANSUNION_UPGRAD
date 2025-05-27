@@ -11,20 +11,19 @@ terraform {
 
 
 
-resource "google_storage_bucket" "GCS1" {
+resource "google_storage_bucket" "GCP27052025" {
 
-    name = "bucket-from-tf-up"
+    name = "vk-bucket-27-05-2025"
     location = "US"
   
 }
 
 providers.tf
 
-
 provider "google" {
   # Configuration options
-  credentials = file()
-  project = upgradlabs-1746877450825
+  credentials = file("upgradlabs-1746877450825-5808a4588870.json")
+  project = "upgradlabs-1746877450825"
   region = "us-central1"
   zone = "us-central1-a"
 
