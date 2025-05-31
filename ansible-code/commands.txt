@@ -1,0 +1,7 @@
+ansible --version
+
+ansible -i hosts.ini all -m ping
+
+ 
+ansible-playbook -i hosts.ini nginix.yml
+
