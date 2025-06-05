@@ -1,0 +1,63 @@
+3  cd
+    4  sudo apt update
+    5  sudo apt install -y curl apt-transport-https
+    6  sudo apt install -y docker.io
+    7  sudo systemctl enable docker
+    8  sudo systemctl start docker
+    9  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+   10  sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+
+   11  minikube start --driver=docker
+
+   12  kubectl get nodes
+ 
+15  curl -s https://dl.k8s.io/release/stable.txt
+
+   16  curl -LO https://dl.k8s.io/release/v1.30.1/bin/linux/amd64/kubectl
+
+   17  chmod +x kubectl
+
+   18  sudo mv kubectl /usr/local/bin/
+
+   19  kubectl version --client
+
+   20  history
+
+
+ 64  sudo apt update
+
+   65  sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
+
+   66  sudo mkdir -p /etc/apt/keyrings
+
+   67  # Download Google Cloud public signing key
+
+   68  curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg |   sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+
+   69  # Add Kubernetes APT repository
+
+   70  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] \
+
+   71  https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+   72  sudo apt update
+
+   73  sudo apt install -y kubelet kubeadm kubectl
+
+   74  sudo apt-mark hold kubelet kubeadm kubectl
+
+   75  sudo snap install kubelet --classic
+
+   76  sudo snap install kubeadm --classic
+
+   77  sudo snap install kubectl --classic
+
+   78  kubectl version --client
+
+   79  kubeadm version
+
+   80  minikube start --driver=docker
+ 
+sudo apt install nano
+ 
