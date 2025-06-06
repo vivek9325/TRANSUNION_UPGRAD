@@ -1,0 +1,207 @@
+  1  cd
+    2  # Disable Swap
+    3  sudo swapoff -a
+    4  sudo sed -i '/ swap / s/^/#/' /etc/fstab
+    5  # Load Kernel Modules
+    6  sudo modprobe overlay
+    7  sudo modprobe br_netfilter
+    8  # Apply sysctl settings
+    9  cat <<EOF | sudo tee /etc/sysctl.d/kubernetes.conf
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOF
+
+   10  sudo sysctl --system
+   11  # Install containerd (common container runtime)
+   12  sudo apt update && sudo apt install -y containerd
+   13  sudo mkdir -p /etc/containerd
+   14  containerd config default | sudo tee /etc/containerd/config.toml
+   15  sudo systemctl restart containerd
+   16  sudo systemctl enable containerd
+   17  sudo apt update && sudo apt install -y apt-transport-https ca-certificates curl
+   18  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+   19  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+   20  sudo apt update
+   21  sudo apt install -y kubelet kubeadm kubectl
+   22  sudo apt-mark hold kubelet kubeadm kubectl
+   23  # Add the Kubernetes repo for Ubuntu 22.04 manually
+   24  sudo tee /etc/apt/sources.list.d/kubernetes.list <<EOF
+deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-jammy main
+EOF
+
+   25  # Add the GPG key
+   26  sudo mkdir -p /etc/apt/keyrings
+   27  curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg |   sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+   28  # Update and install
+   29  sudo apt update
+   30  sudo apt install -y kubelet kubeadm kubectl
+   31  sudo apt-mark hold kubelet kubeadm kubectl
+   32  sudo usermod -aG docker $USER
+   33  newgrp docker
+   34  minikube start --driver=docker
+   35  sudo apt update && sudo apt install -y apt-transport-https ca-certificates curl
+   36  curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+   37  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-jammy main" |   sudo tee /etc/apt/sources.list.d/kubernetes.list
+   38  sudo apt update
+   39  sudo apt install -y kubelet kubeadm kubectl
+   40  sudo apt-mark hold kubelet kubeadm kubectl
+   41  sudo rm /etc/apt/sources.list.d/kubernetes.list
+   42  # Create keyring directory if it doesn't exist
+   43  sudo mkdir -p /etc/apt/keyrings
+   44  # Download the Google Cloud public signing key
+   45  curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg |   sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+   46  # Add the official Kubernetes repo (NO codename like jammy/focal)
+   47  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] \
+https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list > /dev/null
+   48  sudo apt update
+   49  sudo apt install -y kubelet kubeadm kubectl
+   50  sudo apt-mark hold kubelet kubeadm kubectl
+   51  kubeadm version
+   52  kubectl version --client
+   53  sudo rm -f /etc/apt/sources.list.d/kubernetes.list
+   54  sudo rm -f /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+   55  sudo apt update && sudo apt install -y curl gpg apt-transport-https
+   56  sudo mkdir -p /etc/apt/keyrings
+   57  curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg |   gpg --dearmor | sudo tee /etc/apt/keyrings/kubernetes-archive-keyring.gpg > /dev/null
+   58  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" |   sudo tee /etc/apt/sources.list.d/kubernetes.list > /dev/null
+   59  sudo apt update
+   60  sudo apt install -y kubelet kubeadm kubectl
+   61  sudo apt-mark hold kubelet kubeadm kubectl
+   62  cat /etc/apt/sources.list.d/kubernetes.list
+   63  ls -l /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+   64  curl -I https://apt.kubernetes.io/
+   65  sudo apt update
+   66  sudo apt install -y kubelet kubeadm kubectl
+   67  sudo apt-mark hold kubelet kubeadm kubectl
+   68  sudo rm -f /etc/apt/sources.list.d/kubernetes.list
+   69  sudo rm -f /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+   70  # Prerequisites
+   71  sudo apt update
+   72  sudo apt install -y apt-transport-https ca-certificates curl gnupg
+   73  # Add keyring
+   74  sudo mkdir -p /etc/apt/keyrings
+   75  # Download and add GPG key
+   76  curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg |   gpg --dearmor | sudo tee /etc/apt/keyrings/kubernetes-archive-keyring.gpg > /dev/null
+   77  # Add Kubernetes apt repo
+   78  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" |   sudo tee /etc/apt/sources.list.d/kubernetes.list > /dev/null
+   79  sudo apt update
+   80  # Check if the repo is reachable
+   81  apt-cache policy kubeadm
+   82  # Now install
+   83  sudo apt install -y kubelet kubeadm kubectl
+   84  sudo apt-mark hold kubelet kubeadm kubectl
+   85  cat /etc/apt/sources.list.d/kubernetes.list
+   86  ls -l /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+   87  curl -I https://apt.kubernetes.io/
+   88  apt-cache search kubeadm
+   89  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+   90  sudo install minikube-linux-amd64 /usr/local/bin/minikube
+   91  minikube start --driver=docker
+   92  kubeadm version
+   93  kubectl version --client
+   94  # Create temp dir
+   95  mkdir ~/k8s-debs && cd ~/k8s-debs
+   96  # Download .deb packages manually
+   97  curl -LO https://packages.cloud.google.com/apt/pool/kubeadm_1.30.1-1.1_amd64_abc123.deb
+   98  curl -LO https://packages.cloud.google.com/apt/pool/kubectl_1.30.1-1.1_amd64_xyz456.deb
+   99  curl -LO https://packages.cloud.google.com/apt/pool/kubelet_1.30.1-1.1_amd64_def789.deb
+  100  # Install
+  101  sudo dpkg -i *.deb
+  102  alias kubectl="docker run --rm -it -v $HOME/.kube:/root/.kube bitnami/kubectl:latest"
+  103  # Create temp dir
+  104  mkdir ~/k8s-debs && cd ~/k8s-debs
+  105  # Download .deb packages manually
+  106  curl -LO https://packages.cloud.google.com/apt/pool/kubeadm_1.30.1-1.1_amd64_abc123.deb
+  107  curl -LO https://packages.cloud.google.com/apt/pool/kubectl_1.30.1-1.1_amd64_xyz456.deb
+  108  curl -LO https://packages.cloud.google.com/apt/pool/kubelet_1.30.1-1.1_amd64_def789.deb
+  109  # Install
+  110  sudo dpkg -i *.deb
+  111  clear
+  112  # Create temp dir
+  113  mkdir ~/k8s-debs && cd ~/k8s-debs
+  114  # Download .deb packages manually
+  115  curl -LO https://packages.cloud.google.com/apt/pool/kubeadm_1.30.1-1.1_amd64_abc123.deb
+  116  curl -LO https://packages.cloud.google.com/apt/pool/kubectl_1.30.1-1.1_amd64_xyz456.deb
+  117  curl -LO https://packages.cloud.google.com/apt/pool/kubelet_1.30.1-1.1_amd64_def789.deb
+  118  # Install
+  119  sudo dpkg -i *.deb
+  120  kubectl version --client && kubeadm version
+  121  kubectl get nodes
+  122  kubectl get pods -A
+  123  root@server2:~/k8s-debs# kubectl version --client && kubeadm version
+  124  kubectl get nodes
+  125  kubectl get pods -A
+  126  Command 'docker' not found, but can be installed with:
+  127  apt install docker.io      # version 26.1.3-0ubuntu1~22.04.1, or
+  128  apt install podman-docker  # version 3.4.4+ds1-1ubuntu1.22.04.3
+  129  Command 'docker' not found, but can be installed with:
+  130  apt install docker.io      # version 26.1.3-0ubuntu1~22.04.1, or
+  131  apt install podman-docker  # version 3.4.4+ds1-1ubuntu1.22.04.3
+  132  Command 'docker' not found, but can be installed with:
+  133  apt install docker.io      # version 26.1.3-0ubuntu1~22.04.1, or
+  134  apt install podman-docker  # version 3.4.4+ds1-1ubuntu1.22.04.3
+  135  sudo kubeadm init --pod-network-cidr=192.168.0.0/16
+  136  # Create directory
+  137  mkdir -p ~/k8s-debs && cd ~/k8s-debs
+  138  # Download .deb files (update links to match latest version if needed)
+  139  wget https://packages.cloud.google.com/apt/pool/kubeadm_1.30.1-1.1_amd64_1c28deb1619b52cf55d3d17e9f37b7221de2f0871a0abf0146a9990b151f66d3.deb
+  140  wget https://packages.cloud.google.com/apt/pool/kubectl_1.30.1-1.1_amd64_d7485bbd9c536ea92e931a7efc42dbbe37c29d0c3f18b8b13a82c42d8fbc441c.deb
+  141  wget https://packages.cloud.google.com/apt/pool/kubelet_1.30.1-1.1_amd64_f15265d5766cd85c5041660596a2b1f74e6d1cf3cf72b0634d5178f43e985973.deb
+  142  sudo dpkg -i kubelet_*.deb kubeadm_*.deb kubectl_*.deb
+  143  root@server2:~/k8s-debs# sudo dpkg -i kubelet_*.deb kubeadm_*.deb kubectl_*.deb
+  144  dpkg-deb: error: 'kubelet_1.30.1-1.1_amd64_def789.deb' is not a Debian format archive
+  145  dpkg: error processing archive kubelet_1.30.1-1.1_amd64_def789.deb (--install):
+  146  dpkg-deb: error: 'kubeadm_1.30.1-1.1_amd64_abc123.deb' is not a Debian format archive
+  147  dpkg: error processing archive kubeadm_1.30.1-1.1_amd64_abc123.deb (--install):
+  148  dpkg-deb: error: 'kubectl_1.30.1-1.1_amd64_xyz456.deb' is not a Debian format archive
+  149  dpkg: error processing archive kubectl_1.30.1-1.1_amd64_xyz456.deb (--install):
+  150  Errors were encountered while processing:
+  151  dpkg-deb: error: '<file>.deb' is not a Debian format archive
+  152  clear
+  153  mkdir -p ~/k8s-debs && cd ~/k8s-debs
+  154  # Download real kubeadm, kubectl, kubelet v1.30.1 debs
+  155  wget https://packages.cloud.google.com/apt/pool/kubeadm_1.30.1-1.1_amd64_9f1b27e94ce40815111163cb0c5f41c0f58d97eec853d9c9ddde8f8cc2e88053.deb
+  156  wget https://packages.cloud.google.com/apt/pool/kubectl_1.30.1-1.1_amd64_3cf0a5be617dcd960a80a5c4e6db0ae67ff4a98ce857191ce13c93b7e42b5f3f.deb
+  157  wget https://packages.cloud.google.com/apt/pool/kubelet_1.30.1-1.1_amd64_19f0648430ac1d4b4a04b7db9273fca7351f37aeed5370e40de8bbbf61bc21bb.deb
+  158  sudo rm -f /etc/apt/sources.list.d/kubernetes.list
+  159  sudo rm -f /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+  160  # Install necessary packages
+  161  sudo apt update
+  162  sudo apt install -y apt-transport-https ca-certificates curl gpg
+  163  # Create the keyrings directory if it doesn't exist
+  164  sudo mkdir -p /etc/apt/keyrings
+  165  # Download and add the GPG key
+  166  curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key |   gpg --dearmor | sudo tee /etc/apt/keyrings/kubernetes-apt-keyring.gpg > /dev/null
+  167  # Add the Kubernetes APT repository
+  168  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" |   sudo tee /etc/apt/sources.list.d/kubernetes.list > /dev/null
+  169  sudo apt update
+  170  sudo apt install -y kubelet kubeadm kubectl
+  171  sudo apt-mark hold kubelet kubeadm kubectl
+  172  kubeadm version
+  173  kubectl version --client
+  174  which kubectl
+  175  # If it points to something like `/usr/bin/podman`, then:
+  176  sudo rm -f $(which kubectl)
+  177  sudo apt update
+  178  sudo apt install -y kubectl
+  179  kubectl version --client
+  180  curl -LO "https://dl.k8s.io/release/v1.30.1/bin/linux/amd64/kubectl"
+  181  chmod +x kubectl
+  182  sudo mv kubectl /usr/local/bin/
+  183  kubectl version --client
+  184  Emulate Docker CLI using podman...
+  185  Error: short-name "bitnami/kubectl:latest" did not resolve...
+  186  clear
+  187  which kubectl
+  188  # Likely output: /usr/bin/kubectl (linked to Podman)
+  189  # Remove it:
+  190  sudo rm -f $(which kubectl)
+  191  # Download official binary
+  192  curl -LO "https://dl.k8s.io/release/v1.30.1/bin/linux/amd64/kubectl"
+  193  # Make it executable
+  194  chmod +x kubectl
+  195  # Move it to system path
+  196  sudo mv kubectl /usr/local/bin/
+  197  kubectl version --client
+  198  sudo kubeadm init --pod-network-cidr=192.168.0.0/16
+  199  history
