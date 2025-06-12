@@ -1,0 +1,11 @@
+3  gcloud container clusters get-credentials  gke-standard-pool --region us-central1 --project upgradlabs-1746877450825
+    4  kubectl get nodes -o wide
+    5  kubectl get nodes
+    6  kubectl run my-pod --image=nginx --port=80
+    7  kubectl get pods
+    8  kubectl describe pods
+    9  kubectl get-pod my-pod 
+   10  kubectl get-pod my-pod  -o yaml
+   11  kubectl get pod my-pod
+   12  kubectl get pod my-pod -o yaml
+   13  history
